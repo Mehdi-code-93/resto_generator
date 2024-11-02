@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Créer un Site</title>
+    <style>
+        /* Styles pour le formulaire */
+        h1{
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: 400;
+        }
+        form {
+            display: flex;
+            margin: 0 auto;
+            width: 70%;
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+            background-color: #f6f6f6;
+            box-shadow: 0px 0px 8px #b5b5b5;
+            flex-direction: column;
+            align-items: center;
+        }
+        .formClass{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .boxForm{
+            width: 50%;
+            padding: 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        label {
+            display: inline-block;
+            text-align: right;
+        }
+        input, select {
+            font: 1em sans-serif;
+            width: 100%;
+            height: 30px;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            border-radius: 6px;
+        }
+        input:focus {
+            border-color: #000;
+        }
+        .boxInput{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+        }
+        button {
+            background-color: #7dff00;
+            height: 40px;
+            width: 120px;
+            border-radius: 15px;
+            border: 1px solid #bcbcbc6b;
+            box-shadow: 1px 1px 4px #8f8f8f;
+            margin-left: .5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Créer le Site de votre restaurant</h1>
+    <form th:action="@{/creerSite}" method="post" enctype="multipart/form-data">
+        <div class="formClass">
+            <div class="boxForm">
+                <h3>Données du site</h3>
+                <div class="boxInput">
+                    <label for="restaurant">Nom du restaurant</label>
+                    <input type="text" id="restaurant" name="restaurant" required>
+                </div>
+                <div class="boxInput">
+                    <label for="adresse">Adresse du restaurant</label>
+                    <input type="text" id="adresse" name="adresse" required>
+                </div>
+                <div class="boxInput">
+                    <label for="emailContact">Email contact:</label>
+                    <input type="email" id="emailContact" name="emailContact" required>
+                </div>
+                <div class="boxInput">
+                    <label for="telephone">Telephone</label>
+                    <input type="text" id="telephone" name="telephone" required>
+                </div>
+                <h3>Admin</h3>
+                <div class="boxInput">
+                    <label for="username">Pseudo :</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="boxInput">
+                    <label for="password">Mot de passe:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+            </div>
+
+            <div class="boxForm">
+                <h3>Designe du site</h3>
+                <div class="boxInput">
+                    <label for="banniere">Bannière:</label>
+                    <input type="file" id="banniere" name="banniere" required>
+                </div>
+                <div class="boxInput">
+                    <label for="couleur">Couleur theme:</label>
+                    <input type="color" id="couleur" name="couleur" value="#d52828" required>
+                </div>
+                <div class="boxInput">
+                    <label for="textCouleur">Couleur du texte:</label>
+                    <input type="color" id="textCouleur" name="textCouleur" value="#000" required>
+                </div>
+                <div class="boxInput">
+                    <label for="boutonCouleur">Couleur bouton:</label>
+                    <input type="color" id="boutonCouleur" name="boutonCouleur" value="#fcfcfc" required>
+                </div>
+                <div class="boxInput">
+                    <label for="lienCouleur">Couleur des liens:</label>
+                    <input type="color" id="lienCouleur" name="lienCouleur" value="#59c006" required>
+                </div>
+                <div class="boxInput">
+                    <label for="police">Police:</label>
+                    <select id="police" name="police" required>
+                        <option value="sans-serif">Sans-serif (Arial)</option>
+                        <option value="serif">Serif (Georgia)</option>
+                        <option value="monospace">Monospace (Courier New)</option>
+                        <option value="cursive">Cursive (Brush Script MT)</option>
+                        <option value="fantasy">Fantasy (Impact)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <button type="submit">Envoyer</button>
+        </div>
+    </form>
+</body>
+</html>

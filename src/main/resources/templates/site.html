@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${restaurant}">Nom Resto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Style pour le corps */
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        nav {
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navClass{
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .navigation{
+            display: flex;
+            width: 15%;
+            justify-content: space-around;
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        footer {
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        header {
+            height: 300px;
+            width: 100%;
+        }
+        .banner{
+            width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .container{
+            min-height: 300px;
+            text-align: center;
+        }
+        section{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .carteBox{
+            box-shadow: 0px 0px 8px rgb(173, 173, 173);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 65%;
+            padding: 30px;
+        }
+        .formClass{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .productBox{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: solid 1px black;
+            padding: 20px;
+        }
+        .boxNomDesc{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .desc{
+            font-size: 0.7rem;
+        }
+        .hidden {
+            display: none;
+        }
+        .productBox {
+            margin-bottom: 20px;
+        }
+        .toggleButton{
+            border-radius: 10px;
+            padding: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 0 1px black;
+            transition: 200ms ease;
+        }
+        .toggleButton:hover{
+            box-shadow: 0 0 0 2px black;
+        }
+        .showAvisRestoContainer{
+            background-color: #f3f3f3;
+            width: 70%;
+            display: flex;
+            align-items: center;
+            height: 500px;
+            overflow-x: hidden;
+        }
+        .divAvisResto{
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 90%;
+            padding: 10px;
+            border-bottom: 2px solid;
+            transition: 200ms ease;
+        }
+        .divAvisResto:hover{
+            background-color: rgb(227, 227, 227);
+        }
+        .rating {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+            font-size: 25px;
+        }
+
+        .rating > input {
+            display: none;
+        }
+
+        .rating > label {
+            color: #ddd;
+            cursor: pointer;
+            font-size: 30px;
+        }
+
+        .rating > input:checked ~ label,
+        .rating > input:checked ~ label ~ label {
+            color: #ffd700;
+        }
+
+        .rating > label:hover,
+        .rating > label:hover ~ label {
+            color: #ffd700;
+        }
+
+    </style>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            var couleur = /*[[${couleur}]]*/ 'lightgrey';
+            var linkCouleur = /*[[${lienCouleur}]]*/ 'lightgrey';
+            var btnCouleur = /*[[${boutonCouleur}]]*/ 'lightgrey';
+            var police = /*[[${police}]]*/ 'Arial';
+            var nav = document.querySelector('.nav');
+            var btnNavs = document.querySelectorAll('.btnNav'); // Utiliser querySelectorAll
+            var footer = document.querySelector('.footer');
+            var btnAvis = document.querySelector('.toggleButton');
+            btnAvis.style.backgroundColor = couleur;
+    
+            btnNavs.forEach(function(btnNav) {
+                btnNav.style.color = linkCouleur;
+            });
+    
+            document.body.style.fontFamily = police;
+            if (nav) {
+                nav.style.backgroundColor = couleur;
+            }
+            if (footer) {
+                footer.style.backgroundColor = couleur;
+            }
+        });
+    
+        function toggleForm(button) {
+            const formContainer = button.nextElementSibling;
+            if (formContainer.classList.contains('hidden')) {
+                formContainer.classList.remove('hidden');
+            } else {
+                formContainer.classList.add('hidden');
+            }
+        }
+    </script>
+    </head>
+    <body>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="navClass">
+            <h1 th:text="${restaurant}">Nom Resto</h1>
+            <ul class="navigation">
+                <a th:href="${restaurant} + '/login'"><li class="btnNav">connexion</li></a>
+                <a href="#footerSection"><li class="btnNav">infos</li></a>
+            </ul>
+        </div>
+    </nav>
+
+<!-- Header avec bannière -->
+<header class="header">
+        <img class="banner" th:src="'data:image/jpeg;base64,' + ${banniere}" alt="Bannière du Site"/>
+</header>
+
+<!-- Section principale pour le contenu -->
+<main>
+    <div class="container">
+        <section class="avisRestoContainer">
+            <h2>Avis restaurant</h2>
+            <form class="" action="/avisResto" method="post" enctype="multipart/form-data">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="commentaire">Commentaire</label>
+                <input type="textarea" id="commentaire" name="commentaire" required>
+                <label for="etoile">Note :</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="etoile" value="5" required /><label for="star5" title="5 stars">&#9733;</label>
+                    <input type="radio" id="star4" name="etoile" value="4" required /><label for="star4" title="4 stars">&#9733;</label>
+                    <input type="radio" id="star3" name="etoile" value="3" required /><label for="star3" title="3 stars">&#9733;</label>
+                    <input type="radio" id="star2" name="etoile" value="2" required /><label for="star2" title="2 stars">&#9733;</label>
+                    <input type="radio" id="star1" name="etoile" value="1" required /><label for="star1" title="1 star">&#9733;</label>
+                </div>
+                <!-- <select id="etoile" name="etoile" required>
+                    <option th:value="1">1 / 5</option>
+                    <option th:value="2">2 / 5</option>
+                    <option th:value="3">3 / 5</option>
+                    <option th:value="4">4 / 5</option>
+                    <option th:value="5">5 / 5</option>
+                </select> -->
+                <input type="hidden" name="idresto" th:value="${idresto}">
+                <input type="hidden" name="restaurant" th:value="${restaurant}">
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
+        <section class="messageContainer">
+            <h2>Contactez nous</h2>
+            <form class="" action="/message" method="post" enctype="multipart/form-data">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="commentaire">Commentaire</label>
+                <input type="text" id="commentaire" name="commentaire" required>
+                <input type="hidden" name="idresto" th:value="${idresto}">
+                <input type="hidden" name="restaurant" th:value="${restaurant}">
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
+        <section class="reservationContainer">
+            <h2>Réservation</h2>
+            <form class="" action="/sites" method="post" enctype="multipart/form-data">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="commentaire">Commentaire</label>
+                <input type="text" id="commentaire" name="commentaire" required>
+                <label for="plat">Personne :</label>
+                <select id="personne" name="personne" required>
+                    <option th:value="1" th:text="1"></option>
+                    <option th:value="2" th:text="2"></option>
+                    <option th:value="3" th:text="3"></option>
+                    <option th:value="4" th:text="4"></option>
+                    <option th:value="5" th:text="5"></option>
+                    <option th:value="6" th:text="6"></option>
+                    <option th:value="7" th:text="7"></option>
+                    <option th:value="8" th:text="8"></option>
+                    <option th:value="9" th:text="9"></option>
+                    <option th:value="10" th:text="10"></option>
+                </select>
+                <input type="hidden" name="idresto" th:value="${idresto}">
+                <input type="hidden" name="restaurant" th:value="${restaurant}">
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
+        <section>
+            <h1>La carte</h1>
+            <div class="carteBox">
+                <h2>Entrées</h2>
+                <div class="formClass">
+                    <div class="productBox" th:each="carte : ${entrees}">
+                        <div class="boxNomDesc">
+                            <span th:text="${carte.nom}"></span>
+                            <span class="desc" th:text="${carte.description}"></span>
+                            <div class="toggleButton" onclick="toggleForm(this)">Votre Avis</div>
+                            <div class="formContainer hidden">
+                                <form class="formClass" th:action="@{/addReview}" method="post" enctype="multipart/form-data">
+                                    <label for="nom">Nom</label>
+                                    <input type="text" id="nom" name="nom" required>
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                    <label for="commentaire">Commentaire</label>
+                                    <input type="text" id="commentaire" name="commentaire" required>
+                                    <label for="etoile">Note :</label>
+                                    <select id="etoile" name="etoile" required>
+                                        <option th:value="1">1 / 5</option>
+                                        <option th:value="2">2 / 5</option>
+                                        <option th:value="3">3 / 5</option>
+                                        <option th:value="4">4 / 5</option>
+                                        <option th:value="5">5 / 5</option>
+                                    </select>
+                                    <label for="plat">Plat :</label>
+                                    <select id="plat" name="plat" required>
+                                        <option th:value="${carte.nom}" th:text="${carte.nom}"></option>
+                                    </select>
+                                    <input type="hidden" name="idresto" th:value="${idresto}">
+                                    <input type="hidden" name="restaurant" th:value="${restaurant}">
+                                    <button type="submit">Envoyer</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <span th:text="${carte.prix} + ' €'"></span>
+                        </div>
+                    </div>
+                </div>
+                <h2>Plats</h2>
+                <form class="formClass" th:action="@{/site/{restaurant}}" method="post" enctype="multipart/form-data">
+                    <div class="productBox" th:each="carte : ${plats}">
+                        <div class="boxNomDesc">
+                            <span th:text="${carte.nom}"></span>
+                            <span class="desc" th:text="${carte.description}"></span>
+                            <div class="toggleButton" onclick="toggleForm(this)">Votre Avis</div>
+                            <div class="formContainer hidden">
+                                <form action="">
+                                    <input type="text" placeholder="Texte">
+                                    <input type="email" name="email" placeholder="Email">
+                                    <button type="submit">Envoyer</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <span th:text="${carte.prix} + ' €'"></span>
+                        </div>
+                    </div>
+                </form>
+                <h2>Desserts</h2>
+                <form class="formClass" method="post" enctype="multipart/form-data">
+                    <div class="productBox" th:each="carte : ${desserts}">
+                        <div class="boxNomDesc">
+                            <span th:text="${carte.nom}"></span>
+                            <span class="desc" th:text="${carte.description}"></span>
+                            <div class="toggleButton" onclick="toggleForm(this)">Votre Avis</div>
+                            <div class="formContainer hidden">
+                                <form action="">
+                                    <input type="text" placeholder="Texte">
+                                    <input type="email" name="email" placeholder="Email">
+                                    <input type="button" value="Soumettre">
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <span th:text="${carte.prix} + ' €'"></span>
+                        </div>
+                    </div>
+                </form>
+                <h2>Boissons</h2>
+                <form class="formClass" method="post" enctype="multipart/form-data">
+                    <div class="productBox" th:each="carte : ${boissons}">
+                        <div class="boxNomDesc">
+                            <span th:text="${carte.nom}"></span>
+                            <span class="desc" th:text="${carte.description}"></span>
+                            <div class="toggleButton" onclick="toggleForm(this)">Votre Avis</div>
+                            <div class="formContainer hidden">
+                                <form action="">
+                                    <input type="text" placeholder="Texte">
+                                    <input type="email" name="email" placeholder="Email">
+                                    <input type="button" value="Soumettre">
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <span th:text="${carte.prix} + ' €'"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <h2>Les Avis</h2>
+<section class="showAvisRestoContainer">
+    <div class="divAvisResto" th:each="avis : ${avisRestos}">
+        <p th:text="${avis.nom}"></p>
+        <p>
+            <span th:each="i : ${#numbers.sequence(1, avis.etoile)}">
+                <i class="fas fa-star"></i>
+            </span>
+            <span th:each="i : ${#numbers.sequence(1, 5 - avis.etoile)}">
+                <i class="far fa-star"></i>
+            </span>
+        </p>
+        <p th:text="${avis.commentaire}"></p>
+        <!-- like -->
+        <form action="/liked" method="post">
+            <input type="hidden" name="id" th:value="${avis.id}">
+            <input type="hidden" name="anchor" th:value="${'avis-' + avis.id}">
+            <input type="hidden" name="restaurant" th:value="${restaurant}">
+            <button type="submit" th:text="'Like : ' + ${avis.liked}"></button>
+        </form>
+        <form action="/dislike" method="post">
+            <input type="hidden" name="id" th:value="${avis.id}">
+            <input type="hidden" name="anchor" th:value="${'avis-' + avis.id}">
+            <input type="hidden" name="restaurant" th:value="${restaurant}">
+            <button type="submit" th:text="'Dislike : ' + ${avis.dislike}"></button>
+        </form>
+    </div>
+</section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div id="footerSection" class="footerClass">
+        <h3>Informations</h3>
+        <p th:text="${adresse}"></p>
+        <p th:text="${emailContact}"></p>
+        <p th:text="${telephone}"></p>
+        <p>&copy; 2024 Votre Restaurant. Tous droits réservés.</p>
+    </div>
+</footer>
+
+</body>
+</html>

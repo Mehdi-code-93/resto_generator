@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmation de Site</title>
+</head>
+<body>
+    <h2>Confirmation de Site</h2>
+    <p>Nom Resto: <span th:text="${restaurant}"></span></p>
+    <p>Police: <span th:text="${police}"></span></p>
+    <p>Couleur: <span th:text="${couleur}"></span></p>
+    <p>textCouleur: <span th:text="${textCouleur}"></span></p>
+    <p>boutonCouleur: <span th:text="${boutonCouleur}"></span></p>
+    <p>lienCouleur: <span th:text="${lienCouleur}"></span></p>
+    <p>adresse: <span th:text="${adresse}"></span></p>
+    <p>emailContact: <span th:text="${emailContact}"></span></p>
+    <p>telephone: <span th:text="${telephone}"></span></p>
+    <p>username: <span th:text="${username}"></span></p>
+    <!-- Afficher le mot de passe pour le développement, retire cette ligne en production -->
+    <p>Mot de passe: <span th:text="${password}"></span></p>
+
+    <a href="/site{restaurant}">Acceder au site</a>
+</body>
+</html>

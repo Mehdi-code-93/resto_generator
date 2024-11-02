@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmation de Carte</title>
+</head>
+<body>
+    <h2>Confirmation de carte</h2>
+    <p>Nom : <span th:text="${nom}"></span></p>
+    <p>description: <span th:text="${description}"></span></p>
+    <p>Prix: <span th:text="${prix}"></span></p>
+    <p>categorie: <span th:text="${categorie}"></span></p>
+
+    <a href="/site/{restaurant}/dashboards">Acceder au site</a>
+</body>
+</html>

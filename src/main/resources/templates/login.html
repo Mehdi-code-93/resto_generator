@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion Administrateur</title>
+</head>
+<body>
+    <h2>Connexion Administrateur</h2>
+    <form th:action="@{/site/{restaurant}/login(restaurant=${restaurant})}" method="post">
+        <label for="username">Pseudo</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}">Identifiants invalides.</p>
+    </div>
+</body>
+</html>

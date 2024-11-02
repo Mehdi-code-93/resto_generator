@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Créer un Site</title>
+    <style>
+        /* Styles pour le formulaire */
+        h1{
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: 400;
+        }
+        form {
+            display: flex;
+            margin: 0 auto;
+            width: 70%;
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+            background-color: #f6f6f6;
+            box-shadow: 0px 0px 8px #b5b5b5;
+            flex-direction: column;
+            align-items: center;
+        }
+        .formClass{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .boxForm{
+            width: 50%;
+            padding: 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        table{
+            width: 100%;
+        }
+        label {
+            display: inline-block;
+            text-align: right;
+        }
+        input, select {
+            font: 1em sans-serif;
+            width: 100%;
+            height: 30px;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            border-radius: 6px;
+        }
+        input:focus {
+            border-color: #000;
+        }
+        .boxInput{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+        }
+        button {
+            background-color: #7dff00;
+            height: 40px;
+            width: 120px;
+            border-radius: 15px;
+            border: 1px solid #bcbcbc6b;
+            box-shadow: 1px 1px 4px #8f8f8f;
+            margin-left: .5em;
+        }
+        tr{
+            background-color: gainsboro;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: solid 1px black;
+        }
+        .btnUpdate{
+            background-color: #7dff00;
+            height: 30px;
+            width: 80px;
+            border-radius: 8px;
+            border: 1px solid #bcbcbc6b;
+            box-shadow: 1px 1px 4px #8f8f8f;
+            padding: 6px;
+            text-decoration: none;
+            color: black;
+            transition: 200ms ease;
+        }
+        .btnUpdate:hover{
+            box-shadow: 0 0 0 2px black;
+        }
+        .btnDelete{
+            background-color: #de1212;
+            height: 30px;
+            width: 80px;
+            border-radius: 8px;
+            border: 1px solid #bcbcbc6b;
+            box-shadow: 1px 1px 4px #8f8f8f;
+            padding: 6px;
+            text-decoration: none;
+            color: white;
+            transition: 200ms ease;
+        }
+        .btnDelete:hover{
+            box-shadow: 0 0 0 2px black;
+        }
+    </style>
+</head>
+<body>
+    <a th:href="@{'/site/' + ${restaurant}}">Retour au site</a>
+    <a th:href="@{'/site/' + ${restaurant} + '/edit'}">Modifier le site</a>
+    <h1 th:text="'La carte de ' + ${restaurant}">Nom Resto</h1>
+    <!-- <form th:action="@{/site/{restaurant}/dashboards}" method="post" enctype="multipart/form-data"> -->
+    <!-- <form th:action="/site/{restaurant}/dashboards" method="post" enctype="multipart/form-data"> -->
+    <form th:action="@{'/site/' + ${restaurant} + '/dashboards'}" method="post" enctype="multipart/form-data">
+        <div class="formClass">
+            <div class="boxForm">
+                <h3>Ajouter a la carte</h3>
+                <div class="boxInput">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="boxInput">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" required>
+                </div>
+                <div class="boxInput">
+                    <label for="prix">Prix :</label>
+                    <input type="number" id="prix" name="prix" required>
+                </div>
+                <div class="boxInput">
+                    <label for="image">Image :</label>
+                    <input type="file" id="image" name="image" required>
+                </div>
+                <div class="boxInput">
+                    <label for="categorie">Catégorie :</label>
+                    <select id="categorie" name="categorie" required>
+                        <option value="entree">Entrée</option>
+                        <option value="plat">Plat</option>
+                        <option value="dessert">Dessert</option>
+                        <option value="boisson">Boisson</option>
+                    </select>
+                </div>
+                <div class="boxInput">
+                    <input type="hidden" name="resto" th:value="${resto}">
+                </div>
+            </div>
+        </div>
+        <button type="submit">Créer</button>
+    </form>
+    <h1>La carte</h1>
+    <div class="carteBox">
+        <form method="post" enctype="multipart/form-data">
+            <h2>Entrées</h2>
+            <div class="formClass">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="carte : ${entrees}">
+                            <td th:text="${carte.nom}"></td>
+                            <td th:text="${carte.description}"></td>
+                            <td th:text="${carte.prix} + ' €'"></td>
+                            <td>
+                                <a class="btnUpdate" th:href="@{'/site/' + ${restaurant} + '/dashboards/edit/' + ${carte.id}}">Modifier</a>
+                                <a class="btnDelete" th:href="@{'/site/' + ${restaurant} + '/dashboards/delete/' + ${carte.id}}">Supprimer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            <h2>Plats</h2>
+            <div class="formClass">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="carte : ${plats}">
+                            <td th:text="${carte.nom}"></td>
+                            <td th:text="${carte.description}"></td>
+                            <td th:text="${carte.prix} + ' €'"></td>
+                            <td>
+                                <a class="btnUpdate" th:href="@{'/site/' + ${restaurant} + '/dashboards/edit/' + ${carte.id}}">Modifier</a>
+                                <a class="btnDelete" th:href="@{'/site/' + ${restaurant} + '/dashboards/delete/' + ${carte.id}}">Supprimer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            <h2>Desserts</h2>
+            <div class="formClass">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="carte : ${desserts}">
+                            <td th:text="${carte.nom}"></td>
+                            <td th:text="${carte.description}"></td>
+                            <td th:text="${carte.prix} + ' €'"></td>
+                            <td>
+                                <a class="btnUpdate" th:href="@{'/site/' + ${restaurant} + '/dashboards/edit/' + ${carte.id}}">Modifier</a>
+                                <a class="btnDelete" th:href="@{'/site/' + ${restaurant} + '/dashboards/delete/' + ${carte.id}}">Supprimer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            <h2>Boissons</h2>
+            <div class="formClass">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="carte : ${boissons}">
+                            <td th:text="${carte.nom}"></td>
+                            <td th:text="${carte.description}"></td>
+                            <td th:text="${carte.prix} + ' €'"></td>
+                            <td>
+                                <a class="btnUpdate" th:href="@{'/site/' + ${restaurant} + '/dashboards/edit/' + ${carte.id}}">Modifier</a>
+                                <a class="btnDelete" th:href="@{'/site/' + ${restaurant} + '/dashboards/delete/' + ${carte.id}}">Supprimer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
